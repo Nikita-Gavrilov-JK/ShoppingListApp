@@ -11,6 +11,8 @@ import com.example.shoppinglistapp.model.ShoppingListNames
 
 @Database(entities = [LibraryItem::class, NoteItem::class, ShoppingListItem::class, ShoppingListNames::class], version = 1)
 abstract class ShoppingListDB : RoomDatabase() {
+
+    abstract fun getDao(): ShoppingListDao
     companion object{
         @Volatile
         private var INSTANCE: ShoppingListDB? = null
