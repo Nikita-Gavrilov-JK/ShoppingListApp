@@ -27,7 +27,9 @@ class MainActivity : AppCompatActivity() {
                    FragmentManager.setFragment(NoteFragment.newInstance(), this)
                 }
                 R.id.shop_list -> {Log.d("MYLOG", "Shop_list")}
-                R.id.new_item -> {Log.d("MYLOG", "New_item")}
+                R.id.new_item -> {
+
+                }
             }
             true
         }
