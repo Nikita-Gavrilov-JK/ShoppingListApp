@@ -1,5 +1,6 @@
 package com.example.shoppinglistapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shoppinglistapp.databinding.ActivityNewNoteBinding
+import com.example.shoppinglistapp.view.NoteFragment
 
 class NewNoteActivity : AppCompatActivity() {
     private lateinit var binding : ActivityNewNoteBinding
@@ -30,6 +32,15 @@ class NewNoteActivity : AppCompatActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setMainResult(){
+        val i = Intent().apply {
+            putExtra(NoteFragment.TITLE_KEY, binding.edTitle.text.toString())
+            putExtra(NoteFragment.DESC_KEY, binding.edDescription.text.toString())
+        }
+        setResult(RESULT_OK, i)
+        finish()
     }
 
     private fun actionBarSettings(){
