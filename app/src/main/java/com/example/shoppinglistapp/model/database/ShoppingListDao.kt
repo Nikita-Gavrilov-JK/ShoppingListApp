@@ -1,6 +1,7 @@
 package com.example.shoppinglistapp.model.database
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.shoppinglistapp.model.NoteItem
@@ -16,4 +17,6 @@ interface ShoppingListDao {
     // Добавление заметок
     @Insert
     suspend fun insertNote(note: NoteItem)
+    @Query("DELETE FROM note_list WHERE id = :id")
+    suspend fun deleteNote(id: Int)
 }

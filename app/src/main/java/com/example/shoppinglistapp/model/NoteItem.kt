@@ -3,6 +3,8 @@ package com.example.shoppinglistapp.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
+
 // Для хранения заметок
 @Entity(tableName = "note_list")
 data class NoteItem(
@@ -16,4 +18,4 @@ data class NoteItem(
     val time: String,
     @ColumnInfo(name = "category")
     val category: String
-)
+) : Serializable

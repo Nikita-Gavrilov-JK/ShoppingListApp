@@ -2,6 +2,7 @@ package com.example.shoppinglistapp.view
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,15 +12,19 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppinglistapp.MainApp
 import com.example.shoppinglistapp.NewNoteActivity
 import com.example.shoppinglistapp.R
 import com.example.shoppinglistapp.databinding.FragmentNoteBinding
+import com.example.shoppinglistapp.model.NoteItem
+import com.example.shoppinglistapp.model.database.NoteAdpter
 import com.example.shoppinglistapp.viewmodel.ShoppingListViewModel
 
-class NoteFragment : BaseFragment() {
+class NoteFragment : BaseFragment(), NoteAdpter.Listener {
     private lateinit var binding: FragmentNoteBinding
     private lateinit var editLauncher: ActivityResultLauncher<Intent>
+    private lateinit var adapter: NoteAdpter
     private val shoppingListViewModel: ShoppingListViewModel by activityViewModels {
         ShoppingListViewModel.ShoppingListViewModelFactory((context?.applicationContext as MainApp).database)
     }
@@ -31,6 +36,7 @@ class NoteFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         onEditResult()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,11 +45,37 @@ class NoteFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRcView()
+        observer()
+    }
+    private fun initRcView() = with(binding){
+        rcViewNote.layoutManager = LinearLayoutManager(activity)
+        adapter = NoteAdpter(this@NoteFragment)
+        rcViewNote.adapter = adapter
+    }
+
+    private fun observer() {
+        shoppingListViewModel.allNotes.observe(viewLifecycleOwner, {
+            adapter.submitList(it)
+        })
+    }
+
     private fun onEditResult(){
         editLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            if (it.resultCode == Activity.RESULT_OK){
-                Log.d("My log", "title: ${it.data?.getStringExtra(TITLE_KEY)}")
-                Log.d("My log", "description: ${it.data?.getStringExtra(DESC_KEY)}")
+            if (it.resultCode == Activity.RESULT_OK) {
+                // так как метод getSerializableExtra устарел. Мы прописываем условие,
+                // чтобы работало отображение фрагменнта как на старых версиях sdk так и на новых
+                val noteItem = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    it.data?.getSerializableExtra(NEW_NOTE_KEY, NoteItem::class.java)
+                } else {
+                    it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem
+                }
+
+                noteItem?.let { note ->
+                    shoppingListViewModel.insertNote(note)
+                }
             }
         }
     }
@@ -51,9 +83,12 @@ class NoteFragment : BaseFragment() {
     // companion object нужен нам будет для создания  Singleton
     // Для того чтобы у нас была одна инстанция фрагмента если мы пыттаемся её несколько раз запустить
     companion object {
-        const val TITLE_KEY = "title_key"
-        const val DESC_KEY = "desc_key"
+        const val NEW_NOTE_KEY = "new_note_key"
         @JvmStatic
         fun newInstance() = NoteFragment()
+    }
+
+    override fun deleteItem(id: Int) {
+        shoppingListViewModel.deleteNote(id)
     }
 }

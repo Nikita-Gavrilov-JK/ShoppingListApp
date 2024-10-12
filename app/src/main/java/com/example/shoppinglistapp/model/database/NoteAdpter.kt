@@ -10,22 +10,23 @@ import com.example.shoppinglistapp.R
 import com.example.shoppinglistapp.databinding.NoteListItemBinding
 import com.example.shoppinglistapp.model.NoteItem
 
-class NoteAdpter : ListAdapter<NoteItem, NoteAdpter.ItemHolder>(ItemComparator()) {
+class NoteAdpter(private val listener: Listener) : ListAdapter<NoteItem, NoteAdpter.ItemHolder>(ItemComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         return ItemHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.setData(getItem(position))
+        holder.setData(getItem(position), listener)
     }
 
     class ItemHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = NoteListItemBinding.bind(view)
-        fun setData(note: NoteItem) = with(binding) {
+        fun setData(note: NoteItem, listener: Listener) = with(binding) {
             tvTitle.text = note.title
             tvDescription.text = note.content
             tvTime.text = note.time
+            imDelete.setOnClickListener{listener.deleteItem(note.id!!)}
         }
 
         companion object {
@@ -47,5 +48,9 @@ class NoteAdpter : ListAdapter<NoteItem, NoteAdpter.ItemHolder>(ItemComparator()
             return oldItem == newItem
         }
 
+    }
+
+    interface Listener {
+        fun deleteItem(id: Int)
     }
 }
