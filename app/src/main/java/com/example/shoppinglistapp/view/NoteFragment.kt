@@ -63,18 +63,25 @@ class NoteFragment : BaseFragment(), NoteAdpter.Listener {
     }
 
     private fun onEditResult(){
-        editLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            if (it.resultCode == Activity.RESULT_OK) {
+        editLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data ?: return@registerForActivityResult
+                val editState = result.data?.getStringExtra(EDIT_STATE_KEY)
+
                 // так как метод getSerializableExtra устарел. Мы прописываем условие,
                 // чтобы работало отображение фрагменнта как на старых версиях sdk так и на новых
-                val noteItem = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    it.data?.getSerializableExtra(NEW_NOTE_KEY, NoteItem::class.java)
+                val noteItem: NoteItem? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    data.getSerializableExtra(NEW_NOTE_KEY, NoteItem::class.java)
                 } else {
-                    it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem
+                    data.getSerializableExtra(NEW_NOTE_KEY) as? NoteItem
                 }
 
                 noteItem?.let { note ->
-                    shoppingListViewModel.insertNote(note)
+                    if (editState == "update"){
+                        shoppingListViewModel.updateNote(note)
+                    }else {
+                        shoppingListViewModel.insertNote(note)
+                    }
                 }
             }
         }
@@ -84,11 +91,19 @@ class NoteFragment : BaseFragment(), NoteAdpter.Listener {
     // Для того чтобы у нас была одна инстанция фрагмента если мы пыттаемся её несколько раз запустить
     companion object {
         const val NEW_NOTE_KEY = "new_note_key"
+        const val EDIT_STATE_KEY = "edit_state_key"
         @JvmStatic
         fun newInstance() = NoteFragment()
     }
 
     override fun deleteItem(id: Int) {
         shoppingListViewModel.deleteNote(id)
+    }
+
+    override fun onClickItem(note: NoteItem) {
+        val intent = Intent(activity, NewNoteActivity::class.java).apply {
+            putExtra(NEW_NOTE_KEY, note)
+        }
+        editLauncher.launch(intent)
     }
 }
