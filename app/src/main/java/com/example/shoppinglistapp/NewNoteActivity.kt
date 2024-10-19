@@ -1,5 +1,6 @@
 package com.example.shoppinglistapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
@@ -8,6 +9,9 @@ import android.text.Spannable
 import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.shoppinglistapp.databinding.ActivityNewNoteBinding
 import com.example.shoppinglistapp.model.NoteItem
 import com.example.shoppinglistapp.utils.HtmlManager
+import com.example.shoppinglistapp.utils.MyTouchListener
 import com.example.shoppinglistapp.view.NoteFragment
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -27,8 +32,15 @@ class NewNoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNewNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.colorPicker.visibility = View.GONE
         actionBarSettings()
         getNote()
+        init()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun init() {
+        binding.colorPicker.setOnTouchListener(MyTouchListener())
     }
 
     private fun getNote() {
@@ -68,6 +80,10 @@ class NewNoteActivity : AppCompatActivity() {
             finish()
         } else if (item.itemId == R.id.id_bold){
             setBoldForSelectedText()
+        } else if (item.itemId == R.id.id_color_picker){
+            if (binding.colorPicker.isShown){
+                closeColorPicker()
+            } else {openColorPicker()}
         }
         return super.onOptionsItemSelected(item)
     }
@@ -130,5 +146,30 @@ class NewNoteActivity : AppCompatActivity() {
     private fun actionBarSettings(){
         val ab = supportActionBar
         ab?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun openColorPicker(){
+        binding.colorPicker.visibility = View.VISIBLE
+        val openAnim = AnimationUtils.loadAnimation(this, R.anim.open_color_picker)
+        binding.colorPicker.startAnimation(openAnim)
+    }
+
+    private fun closeColorPicker() {
+        val openAnim = AnimationUtils.loadAnimation(this, R.anim.close_color_picker)
+        openAnim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                binding.colorPicker.visibility = View.GONE
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+
+            }
+
+        })
+        binding.colorPicker.startAnimation(openAnim)
     }
 }
