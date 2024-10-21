@@ -45,7 +45,7 @@
                 android:ems="10"
                 android:gravity="start"
                 android:hint="@string/description_hint"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/ed_title"
                 app:layout_constraintStart_toStartOf="@+id/ed_title"
@@ -77,7 +77,7 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
-                    android:id="@+id/ibOrange"
+                    android:id="@+id/imOrange"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="2dp"
@@ -85,7 +85,7 @@
                     app:srcCompat="@color/pic_orange" />
 
                 <ImageButton
-                    android:id="@+id/ibBlue"
+                    android:id="@+id/imBlue"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="2dp"
@@ -93,7 +93,7 @@
                     app:srcCompat="@color/pic_blue" />
 
                 <ImageButton
-                    android:id="@+id/ibGreen"
+                    android:id="@+id/imGreen"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="2dp"
@@ -107,7 +107,7 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
-                    android:id="@+id/ibBlack"
+                    android:id="@+id/imBlack"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="2dp"
@@ -115,7 +115,7 @@
                     app:srcCompat="@color/pic_black" />
 
                 <ImageButton
-                    android:id="@+id/ibRed"
+                    android:id="@+id/imRed"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="2dp"
@@ -123,7 +123,7 @@
                     app:srcCompat="@color/pic_red" />
 
                 <ImageButton
-                    android:id="@+id/ibYellow"
+                    android:id="@+id/imYellow"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="2dp"

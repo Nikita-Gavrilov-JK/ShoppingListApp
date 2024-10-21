@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
+import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuItem
@@ -14,6 +15,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shoppinglistapp.databinding.ActivityNewNoteBinding
@@ -35,14 +37,36 @@ class NewNoteActivity : AppCompatActivity() {
         binding.colorPicker.visibility = View.GONE
         actionBarSettings()
         getNote()
+        onClickColorPicker()
         init()
     }
 
+    //Метод init служит для перетаскивания палитры цветов
     @SuppressLint("ClickableViewAccessibility")
     private fun init() {
         binding.colorPicker.setOnTouchListener(MyTouchListener())
     }
 
+    private fun onClickColorPicker() = with(binding){
+        imRed.setOnClickListener{
+            setColorForSelectedText(R.color.pic_red)
+        }
+        imBlack.setOnClickListener{
+            setColorForSelectedText(R.color.pic_black)
+        }
+        imOrange.setOnClickListener{
+            setColorForSelectedText(R.color.pic_orange)
+        }
+        imBlue.setOnClickListener{
+            setColorForSelectedText(R.color.pic_blue)
+        }
+        imGreen.setOnClickListener{
+            setColorForSelectedText(R.color.pic_green)
+        }
+        imYellow.setOnClickListener{
+            setColorForSelectedText(R.color.pic_yellow)
+        }
+    }
     private fun getNote() {
         // Попытка получить заметку из Intent
         val sNote = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -100,6 +124,22 @@ class NewNoteActivity : AppCompatActivity() {
         }
 
         edDescription.text.setSpan(boldStyle, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        edDescription.text.trim()
+        edDescription.setSelection(startPos)
+    }
+
+    private fun setColorForSelectedText(colorId: Int) = with(binding){
+        val startPos = edDescription.selectionStart
+        val endPos =  edDescription.selectionEnd
+        val styles = edDescription.text.getSpans(startPos, endPos, ForegroundColorSpan::class.java)
+        if (styles.isNotEmpty()){
+            edDescription.text.removeSpan(styles[0])
+        }
+
+        edDescription.text.setSpan(
+            ForegroundColorSpan(
+                ContextCompat.getColor(this@NewNoteActivity, colorId)),
+            startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         edDescription.text.trim()
         edDescription.setSelection(startPos)
     }
