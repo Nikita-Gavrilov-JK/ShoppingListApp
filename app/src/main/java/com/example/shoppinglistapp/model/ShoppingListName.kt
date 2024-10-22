@@ -7,7 +7,7 @@ import java.io.Serializable
 
 // таблица будет хранить названия списков
 @Entity(tableName = "shopping_list_names")
-data class ShoppingListNames(
+data class ShoppingListName(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
     @ColumnInfo(name = "name")

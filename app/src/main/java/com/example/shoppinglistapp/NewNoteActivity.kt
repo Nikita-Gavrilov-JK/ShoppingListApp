@@ -22,6 +22,7 @@ import com.example.shoppinglistapp.databinding.ActivityNewNoteBinding
 import com.example.shoppinglistapp.model.NoteItem
 import com.example.shoppinglistapp.utils.HtmlManager
 import com.example.shoppinglistapp.utils.MyTouchListener
+import com.example.shoppinglistapp.utils.TimeManager
 import com.example.shoppinglistapp.view.NoteFragment
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -174,13 +175,9 @@ class NewNoteActivity : AppCompatActivity() {
             null,
             binding.edTitle.text.toString(),
             HtmlManager.toHtml(binding.edDescription.text),
-            getCurrentTime(),
+            TimeManager.getCurrentTime(),
             ""
             )
-    }
-    private fun getCurrentTime(): String {
-        val format = SimpleDateFormat("hh:mm:ss - yyyy/MM/dd", Locale.getDefault())
-        return format.format(Calendar.getInstance().time)
     }
 
     private fun actionBarSettings(){

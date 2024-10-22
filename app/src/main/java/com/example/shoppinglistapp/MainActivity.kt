@@ -9,13 +9,16 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.shoppinglistapp.databinding.ActivityMainBinding
 import com.example.shoppinglistapp.view.FragmentManager
 import com.example.shoppinglistapp.view.NoteFragment
+import com.example.shoppinglistapp.view.ShopListNamesFragment
+import com.example.shoppinglistapp.view.dialog.NewListDialog
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NewListDialog.Listener {
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
         setBottomNavListener()
     }
 
@@ -26,12 +29,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.notes -> {
                    FragmentManager.setFragment(NoteFragment.newInstance(), this)
                 }
-                R.id.shop_list -> {Log.d("MYLOG", "Shop_list")}
+                R.id.shop_list -> {FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)}
                 R.id.new_item -> {
                     FragmentManager.currentFragment?.onClickNew()
                 }
             }
             true
         }
+    }
+
+    override fun onClick(name: String) {
+
     }
 }

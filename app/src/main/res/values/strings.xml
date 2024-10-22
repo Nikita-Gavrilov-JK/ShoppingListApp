@@ -6,4 +6,7 @@
     <string name="new_item">New</string>
     <string name="ed_title_hint">Заголовок</string>
     <string name="description_hint">Описание</string>
+    <string name="new_list">Новый список имён</string>
+    <string name="new_list_hint">Введите текст</string>
+    <string name="create_list">Создание списка</string>
 </resources>
