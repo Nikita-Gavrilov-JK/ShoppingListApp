@@ -9,13 +9,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppinglistapp.MainApp
 import com.example.shoppinglistapp.databinding.FragmentShopListNamesBinding
+import com.example.shoppinglistapp.model.NoteItem
 import com.example.shoppinglistapp.model.ShoppingListName
 import com.example.shoppinglistapp.model.database.ShopListNameAdapter
 import com.example.shoppinglistapp.utils.TimeManager
+import com.example.shoppinglistapp.view.dialog.DeleteDialog
 import com.example.shoppinglistapp.view.dialog.NewListDialog
 import com.example.shoppinglistapp.viewmodel.ShoppingListViewModel
 
-class ShopListNamesFragment : BaseFragment() {
+class ShopListNamesFragment : BaseFragment(), ShopListNameAdapter.Listener {
     private lateinit var binding: FragmentShopListNamesBinding
     private lateinit var adapter: ShopListNameAdapter
 
@@ -58,7 +60,7 @@ class ShopListNamesFragment : BaseFragment() {
     }
     private fun initRcView() = with(binding){
         rcView.layoutManager = LinearLayoutManager(activity)
-        adapter = ShopListNameAdapter()
+        adapter = ShopListNameAdapter(this@ShopListNamesFragment)
         rcView.adapter = adapter
     }
 
@@ -73,6 +75,18 @@ class ShopListNamesFragment : BaseFragment() {
     companion object {
         @JvmStatic
         fun newInstance() = ShopListNamesFragment()
+    }
+
+    override fun deleteItem(id: Int) {
+        DeleteDialog.showDialog(context as AppCompatActivity, object : DeleteDialog.Listener{
+            override fun onClick() {
+                shoppingListViewModel.deleteShopListName(id)
+            }
+        })
+    }
+
+    override fun onClickItem(note: NoteItem) {
+
     }
 
 }

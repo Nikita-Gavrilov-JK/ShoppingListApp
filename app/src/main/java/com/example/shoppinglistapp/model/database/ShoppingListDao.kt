@@ -19,14 +19,18 @@ interface ShoppingListDao {
     @Query("SELECT * FROM shopping_list_names")
     fun getAllShopListNames(): Flow<List<ShoppingListName>>
 
-    // Добавление заметок
+    // Добавление обновление и удаление заметок
     @Insert
     suspend fun insertNote(note: NoteItem)
-    @Insert
-    suspend fun insertShopListName(listName: ShoppingListName)
+
     @Query("DELETE FROM note_list WHERE id = :id")
     suspend fun deleteNote(id: Int)
-
     @Update
     suspend fun updateNote(note: NoteItem)
+
+    // Добавление обновление и удаление списков покупок
+    @Insert
+    suspend fun insertShopListName(listName: ShoppingListName)
+    @Query("DELETE FROM shopping_list_names WHERE id = :id")
+    suspend fun deleteShopListName(id: Int)
 }

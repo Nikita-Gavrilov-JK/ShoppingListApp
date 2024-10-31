@@ -30,6 +30,10 @@ class ShoppingListViewModel(database: ShoppingListDB):ViewModel() {
         dao.updateNote(note)
     }
 
+    fun deleteShopListName(id: Int) = viewModelScope.launch {
+        dao.deleteShopListName(id)
+    }
+
     class ShoppingListViewModelFactory(val database: ShoppingListDB): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ShoppingListViewModel::class.java)){

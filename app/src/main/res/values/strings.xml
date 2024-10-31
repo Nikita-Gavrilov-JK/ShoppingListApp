@@ -9,4 +9,8 @@
     <string name="new_list">Новый список имён</string>
     <string name="new_list_hint">Введите текст</string>
     <string name="create_list">Создание списка</string>
+    <string name="delete_dialog_text_title">Удаление</string>
+    <string name="question_delete_dialog_text">Вы действительно хотите удалить?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 </resources>
