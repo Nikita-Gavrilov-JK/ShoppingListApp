@@ -33,4 +33,6 @@ interface ShoppingListDao {
     suspend fun insertShopListName(listName: ShoppingListName)
     @Query("DELETE FROM shopping_list_names WHERE id = :id")
     suspend fun deleteShopListName(id: Int)
+    @Update
+    suspend fun updateShopListName(note: ShoppingListName)
 }

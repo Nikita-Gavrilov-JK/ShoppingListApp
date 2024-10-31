@@ -38,7 +38,7 @@ class ShopListNamesFragment : BaseFragment(), ShopListNameAdapter.Listener {
                 )
                 shoppingListViewModel.insertShopListName(shopListName)
             }
-        })
+        }, "")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,7 +85,16 @@ class ShopListNamesFragment : BaseFragment(), ShopListNameAdapter.Listener {
         })
     }
 
-    override fun onClickItem(note: NoteItem) {
+    override fun editItem(shoppingListName: ShoppingListName) {
+        NewListDialog.showDialog(activity as AppCompatActivity, object : NewListDialog.Listener{
+            override fun onClick(name: String) {
+                shoppingListViewModel.updateShopListName(shoppingListName.copy(name = name))
+            }
+        }, shoppingListName.name)
+    }
+
+
+    override fun onClickItem(shoppingListName: ShoppingListName) {
 
     }
 

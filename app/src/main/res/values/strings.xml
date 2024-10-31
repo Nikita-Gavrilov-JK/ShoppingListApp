@@ -13,4 +13,7 @@
     <string name="question_delete_dialog_text">Вы действительно хотите удалить?</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="update_button_shop_list_name">Обновить</string>
+    <string name="update_new_dialog_title">Редактирование названия списка</string>
+
 </resources>
