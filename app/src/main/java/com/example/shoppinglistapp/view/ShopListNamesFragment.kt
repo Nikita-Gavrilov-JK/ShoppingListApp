@@ -1,5 +1,6 @@
 package com.example.shoppinglistapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppinglistapp.MainApp
 import com.example.shoppinglistapp.databinding.FragmentShopListNamesBinding
-import com.example.shoppinglistapp.model.NoteItem
-import com.example.shoppinglistapp.model.ShoppingListName
+import com.example.shoppinglistapp.model.ShopListNameItem
 import com.example.shoppinglistapp.model.database.ShopListNameAdapter
 import com.example.shoppinglistapp.utils.TimeManager
+import com.example.shoppinglistapp.view.activites.ShopListActivity
 import com.example.shoppinglistapp.view.dialog.DeleteDialog
 import com.example.shoppinglistapp.view.dialog.NewListDialog
 import com.example.shoppinglistapp.viewmodel.ShoppingListViewModel
@@ -21,14 +22,14 @@ class ShopListNamesFragment : BaseFragment(), ShopListNameAdapter.Listener {
     private lateinit var binding: FragmentShopListNamesBinding
     private lateinit var adapter: ShopListNameAdapter
 
-
+    // Здесь мы указываем activityViewModels так как это фрагмент и мы viewmodel берём из Активити
     private val shoppingListViewModel: ShoppingListViewModel by activityViewModels {
         ShoppingListViewModel.ShoppingListViewModelFactory((context?.applicationContext as MainApp).database)
     }
     override fun onClickNew() {
         NewListDialog.showDialog(activity as AppCompatActivity, object : NewListDialog.Listener{
             override fun onClick(name: String) {
-                val shopListName = ShoppingListName(
+                val shopListName = ShopListNameItem(
                     null,
                     name,
                     TimeManager.getCurrentTime(),
@@ -85,17 +86,20 @@ class ShopListNamesFragment : BaseFragment(), ShopListNameAdapter.Listener {
         })
     }
 
-    override fun editItem(shoppingListName: ShoppingListName) {
+    override fun editItem(shopListNameItem: ShopListNameItem) {
         NewListDialog.showDialog(activity as AppCompatActivity, object : NewListDialog.Listener{
             override fun onClick(name: String) {
-                shoppingListViewModel.updateShopListName(shoppingListName.copy(name = name))
+                shoppingListViewModel.updateShopListName(shopListNameItem.copy(name = name))
             }
-        }, shoppingListName.name)
+        }, shopListNameItem.name)
     }
 
 
-    override fun onClickItem(shoppingListName: ShoppingListName) {
-
+    override fun onClickItem(shopListNameItem: ShopListNameItem) {
+        val i = Intent(activity, ShopListActivity::class.java).apply {
+            putExtra(ShopListActivity.SHOP_LIST_NAME, shopListNameItem)
+        }
+        startActivity(i)
     }
 
 }

@@ -1,12 +1,11 @@
 package com.example.shoppinglistapp.model.database
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.shoppinglistapp.model.NoteItem
-import com.example.shoppinglistapp.model.ShoppingListName
+import com.example.shoppinglistapp.model.ShopListNameItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -17,7 +16,7 @@ interface ShoppingListDao {
     fun getAllNotes(): Flow<List<NoteItem>>
 
     @Query("SELECT * FROM shopping_list_names")
-    fun getAllShopListNames(): Flow<List<ShoppingListName>>
+    fun getAllShopListNames(): Flow<List<ShopListNameItem>>
 
     // Добавление обновление и удаление заметок
     @Insert
@@ -30,9 +29,9 @@ interface ShoppingListDao {
 
     // Добавление обновление и удаление списков покупок
     @Insert
-    suspend fun insertShopListName(listName: ShoppingListName)
+    suspend fun insertShopListName(listName: ShopListNameItem)
     @Query("DELETE FROM shopping_list_names WHERE id = :id")
     suspend fun deleteShopListName(id: Int)
     @Update
-    suspend fun updateShopListName(note: ShoppingListName)
+    suspend fun updateShopListName(note: ShopListNameItem)
 }

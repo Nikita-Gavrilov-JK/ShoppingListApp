@@ -6,19 +6,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.shoppinglistapp.model.NoteItem
-import com.example.shoppinglistapp.model.ShoppingListName
+import com.example.shoppinglistapp.model.ShopListNameItem
 import com.example.shoppinglistapp.model.database.ShoppingListDB
 import kotlinx.coroutines.launch
 
 class ShoppingListViewModel(database: ShoppingListDB):ViewModel() {
     val dao = database.getDao()
     val allNotes: LiveData<List<NoteItem>> = dao.getAllNotes().asLiveData()
-    val allShopListNames: LiveData<List<ShoppingListName>> = dao.getAllShopListNames().asLiveData()
+    val allShopListNames: LiveData<List<ShopListNameItem>> = dao.getAllShopListNames().asLiveData()
     fun insertNote(note: NoteItem) = viewModelScope.launch {
         dao.insertNote(note)
     }
 
-    fun insertShopListName(listName: ShoppingListName) = viewModelScope.launch {
+    fun insertShopListName(listName: ShopListNameItem) = viewModelScope.launch {
         dao.insertShopListName(listName)
     }
 
@@ -34,8 +34,8 @@ class ShoppingListViewModel(database: ShoppingListDB):ViewModel() {
         dao.deleteShopListName(id)
     }
 
-    fun updateShopListName(shoppingListName: ShoppingListName) = viewModelScope.launch {
-        dao.updateShopListName(shoppingListName)
+    fun updateShopListName(shopListNameItem: ShopListNameItem) = viewModelScope.launch {
+        dao.updateShopListName(shopListNameItem)
     }
 
     class ShoppingListViewModelFactory(val database: ShoppingListDB): ViewModelProvider.Factory{
