@@ -15,5 +15,9 @@
     <string name="no">Нет</string>
     <string name="update_button_shop_list_name">Обновить</string>
     <string name="update_new_dialog_title">Редактирование названия списка</string>
-
+    <string name="delete_list_menu">Удаление списка</string>
+    <string name="clear_list_menu">Очистить список</string>
+    <string name="new_item_list_menu">Новый продукт</string>
+    <string name="save_item_list_menu">Сохранить</string>
+    <string name="share_list_menu">Поделиться списком</string>
 </resources>
