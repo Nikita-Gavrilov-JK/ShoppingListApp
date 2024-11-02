@@ -48,7 +48,6 @@ class ShopListActivity : AppCompatActivity() {
                 invalidateOptionsMenu()
                 return true
             }
-
         }
     }
 
