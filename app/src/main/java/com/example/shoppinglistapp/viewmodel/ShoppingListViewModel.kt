@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.shoppinglistapp.model.NoteItem
+import com.example.shoppinglistapp.model.ShopListItem
 import com.example.shoppinglistapp.model.ShopListNameItem
 import com.example.shoppinglistapp.model.database.ShoppingListDB
 import kotlinx.coroutines.launch
@@ -20,6 +21,10 @@ class ShoppingListViewModel(database: ShoppingListDB):ViewModel() {
 
     fun insertShopListName(listName: ShopListNameItem) = viewModelScope.launch {
         dao.insertShopListName(listName)
+    }
+
+    fun insertShopItem(shopListItem: ShopListItem) = viewModelScope.launch {
+        dao.insertItem(shopListItem)
     }
 
     fun deleteNote(id: Int) = viewModelScope.launch {

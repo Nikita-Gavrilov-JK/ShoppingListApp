@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MenuItem.OnActionExpandListener
+import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.shoppinglistapp.MainApp
 import com.example.shoppinglistapp.R
 import com.example.shoppinglistapp.databinding.ActivityShopListBinding
+import com.example.shoppinglistapp.model.ShopListItem
 import com.example.shoppinglistapp.model.ShopListNameItem
 import com.example.shoppinglistapp.viewmodel.ShoppingListViewModel
 
@@ -16,6 +18,7 @@ class ShopListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShopListBinding
     private var shopListNameItem: ShopListNameItem? = null
     private lateinit var saveItem: MenuItem
+    private var edItem: EditText? = null
     // Этот класс уже является Активити поэтому мы сразу пишем viewModels
     private val shoppingListViewModel: ShoppingListViewModel by viewModels {
         ShoppingListViewModel.ShoppingListViewModelFactory((applicationContext as MainApp).database)
@@ -31,9 +34,30 @@ class ShopListActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.shop_list_menu, menu)
         saveItem = menu?.findItem(R.id.save_item_list)!!
         val newItem = menu.findItem(R.id.new_item_list)
+        edItem = newItem.actionView?.findViewById(R.id.edNewShopItem) as EditText
         newItem.setOnActionExpandListener(expandActionView())
         saveItem.isVisible = false
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.save_item_list){
+            addNewShopItem()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun addNewShopItem() {
+        if (edItem?.text.toString().isEmpty()) return
+        val item = ShopListItem(
+            null,
+            edItem?.text.toString(),
+            null,
+            0,
+            shopListNameItem?.id!!,
+            0
+        )
+        shoppingListViewModel.insertShopItem(item)
     }
 
     private fun expandActionView(): MenuItem.OnActionExpandListener {

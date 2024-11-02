@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 // Таблица для хранения элементов списка
 @Entity(tableName = "shop_list_item")
-data class ShoppingListItem(
+data class ShopListItem(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
 

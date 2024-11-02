@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.shoppinglistapp.model.NoteItem
+import com.example.shoppinglistapp.model.ShopListItem
 import com.example.shoppinglistapp.model.ShopListNameItem
 import kotlinx.coroutines.flow.Flow
 
@@ -34,4 +35,8 @@ interface ShoppingListDao {
     suspend fun deleteShopListName(id: Int)
     @Update
     suspend fun updateShopListName(note: ShopListNameItem)
+
+    // Добавление обновление и удаление продуктов (item)
+    @Insert
+    suspend fun insertItem(shopListItem: ShopListItem)
 }
