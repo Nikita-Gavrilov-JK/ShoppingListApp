@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglistapp.R
 import com.example.shoppinglistapp.databinding.ListNameItemBinding
+import com.example.shoppinglistapp.databinding.ShopListItemBinding
 import com.example.shoppinglistapp.model.ShopListItem
 
 class ShopListItemAdapter(private val listener: Listener) : ListAdapter<ShopListItem, ShopListItemAdapter.ItemHolder>(ItemComparator()) {
@@ -29,14 +30,26 @@ class ShopListItemAdapter(private val listener: Listener) : ListAdapter<ShopList
         return getItem(position).itemType
     }
 
-    class ItemHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding = ListNameItemBinding.bind(view) //поменять binding
-        fun setItemData(shopListItem: ShopListItem, listener: Listener) = with(binding) {
+    class ItemHolder(val view: View) : RecyclerView.ViewHolder(view) {
+         //поменять binding
+        fun setItemData(shopListItem: ShopListItem, listener: Listener) {
+             val binding = ShopListItemBinding.bind(view)
+             binding.apply {
+                 tvName.text = shopListItem.name
+                 tvInfo.text = shopListItem.itemInfo
+                 tvInfo.visibility = infoVisible(shopListItem)
+             }
+        }
+        fun setLibraryData(shopListItem: ShopListItem, listener: Listener) {
 
         }
 
-        fun setLibraryData(shopListItem: ShopListItem, listener: Listener) = with(binding) {
-
+        fun infoVisible(shopListItem: ShopListItem): Int {
+            return if (shopListItem.itemInfo.isNullOrEmpty()){
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
         }
         companion object {
             fun createShopItem(parent: ViewGroup): ItemHolder {

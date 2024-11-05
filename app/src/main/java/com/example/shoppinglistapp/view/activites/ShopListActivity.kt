@@ -4,21 +4,25 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MenuItem.OnActionExpandListener
+import android.view.View
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppinglistapp.MainApp
 import com.example.shoppinglistapp.R
 import com.example.shoppinglistapp.databinding.ActivityShopListBinding
 import com.example.shoppinglistapp.model.ShopListItem
 import com.example.shoppinglistapp.model.ShopListNameItem
+import com.example.shoppinglistapp.model.database.ShopListItemAdapter
 import com.example.shoppinglistapp.viewmodel.ShoppingListViewModel
 
-class ShopListActivity : AppCompatActivity() {
+class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
     private lateinit var binding: ActivityShopListBinding
     private var shopListNameItem: ShopListNameItem? = null
     private lateinit var saveItem: MenuItem
     private var edItem: EditText? = null
+    private var adapter: ShopListItemAdapter? = null
     // Этот класс уже является Активити поэтому мы сразу пишем viewModels
     private val shoppingListViewModel: ShoppingListViewModel by viewModels {
         ShoppingListViewModel.ShoppingListViewModelFactory((applicationContext as MainApp).database)
@@ -28,6 +32,8 @@ class ShopListActivity : AppCompatActivity() {
         binding = ActivityShopListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
+        initRcView()
+        listItemObserver()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -57,7 +63,25 @@ class ShopListActivity : AppCompatActivity() {
             shopListNameItem?.id!!,
             0
         )
+        edItem?.setText("")
         shoppingListViewModel.insertShopItem(item)
+    }
+
+    private fun listItemObserver(){
+        shoppingListViewModel.getAllItemsFromList(shopListNameItem?.id!!).observe(this, {
+            adapter?.submitList(it)
+            binding.tvEmpty.visibility = if (it.isEmpty()){
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        })
+    }
+
+    private fun initRcView()= with(binding) {
+        adapter = ShopListItemAdapter(this@ShopListActivity)
+        rcView.layoutManager = LinearLayoutManager(this@ShopListActivity)
+        rcView.adapter = adapter
     }
 
     private fun expandActionView(): MenuItem.OnActionExpandListener {
@@ -78,11 +102,22 @@ class ShopListActivity : AppCompatActivity() {
     //В этой функции(init) будем инициализировать RecyclerView и будем получать из Intent какой список мы открыли
     private fun init(){
         shopListNameItem = intent.getSerializableExtra(SHOP_LIST_NAME) as ShopListNameItem
-        binding.tvTest.text = shopListNameItem?.name
     }
 
     //companion object используем для добавления констант
     companion object{
         const val SHOP_LIST_NAME = "shop_list_name"
+    }
+
+    override fun deleteItem(id: Int) {
+
+    }
+
+    override fun editItem(shopListNameItem: ShopListItem) {
+
+    }
+
+    override fun onClickItem(shopListNameItem: ShopListItem) {
+
     }
 }

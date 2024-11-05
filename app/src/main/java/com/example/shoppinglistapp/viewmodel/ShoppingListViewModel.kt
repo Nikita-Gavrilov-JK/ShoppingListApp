@@ -15,6 +15,9 @@ class ShoppingListViewModel(database: ShoppingListDB):ViewModel() {
     val dao = database.getDao()
     val allNotes: LiveData<List<NoteItem>> = dao.getAllNotes().asLiveData()
     val allShopListNames: LiveData<List<ShopListNameItem>> = dao.getAllShopListNames().asLiveData()
+    fun getAllItemsFromList(listid: Int): LiveData<List<ShopListItem>> {
+        return dao.getAllShopListItems(listid).asLiveData()
+    }
     fun insertNote(note: NoteItem) = viewModelScope.launch {
         dao.insertNote(note)
     }
