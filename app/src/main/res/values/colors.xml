@@ -7,6 +7,7 @@
     <color name="purple">#673AB7</color>
     <color name="yellow">#FFEB3B</color>
     <color name="grey">#504F4D</color>
+    <color name="grey_light">#858484</color>
 
     <color name="pic_orange">#FF5722</color>
     <color name="pic_red">#FF0000</color>

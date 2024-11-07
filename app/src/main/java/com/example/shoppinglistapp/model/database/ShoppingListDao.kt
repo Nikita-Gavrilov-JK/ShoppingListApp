@@ -39,6 +39,8 @@ interface ShoppingListDao {
     // Добавление обновление и удаление продуктов (item)
     @Insert
     suspend fun insertItem(shopListItem: ShopListItem)
+    @Update
+    suspend fun updateItem(item: ShopListItem)
     @Query("SELECT * FROM shop_list_item WHERE listId LIKE :listId")
     fun getAllShopListItems(listId: Int): Flow<List<ShopListItem>>
 }

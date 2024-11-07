@@ -30,6 +30,10 @@ class ShoppingListViewModel(database: ShoppingListDB):ViewModel() {
         dao.insertItem(shopListItem)
     }
 
+    fun updateItem(item: ShopListItem) = viewModelScope.launch {
+        dao.updateItem(item)
+    }
+
     fun deleteNote(id: Int) = viewModelScope.launch {
         dao.deleteNote(id)
     }
