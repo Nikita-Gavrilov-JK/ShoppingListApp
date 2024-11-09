@@ -21,4 +21,6 @@
     <string name="save_item_list_menu">Сохранить</string>
     <string name="share_list_menu">Поделиться списком</string>
     <string name="empty">Пусто</string>
+    <string name="update_list_item">Редактирование списка продуктов</string>
+    <string name="info_edit_hint">Описание продукта</string>
 </resources>
