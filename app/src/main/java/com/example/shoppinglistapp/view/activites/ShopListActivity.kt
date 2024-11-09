@@ -47,9 +47,20 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         return true
     }
 
+    // слушатель нажатий на кнопки из меню
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.save_item_list){
-            addNewShopItem()
+        when (item.itemId) {
+            R.id.save_item_list -> {
+                addNewShopItem()
+            }
+            R.id.delete_list -> {
+                shoppingListViewModel.deleteShopList(shopListNameItem?.id!!, true)
+                finish()
+            }
+            R.id.clear_list -> {
+                shoppingListViewModel.deleteShopList(shopListNameItem?.id!!, false)
+
+            }
         }
         return super.onOptionsItemSelected(item)
     }

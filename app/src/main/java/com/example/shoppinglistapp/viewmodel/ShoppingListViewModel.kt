@@ -42,9 +42,11 @@ class ShoppingListViewModel(database: ShoppingListDB):ViewModel() {
         dao.updateNote(note)
     }
 
-    fun deleteShopListName(id: Int) = viewModelScope.launch {
-        dao.deleteShopListName(id)
+    fun deleteShopList(id: Int, deleteList: Boolean) = viewModelScope.launch {
+        if (deleteList) {dao.deleteShopListName(id)}
+        dao.deleteItem(id)
     }
+
 
     fun updateShopListName(shopListNameItem: ShopListNameItem) = viewModelScope.launch {
         dao.updateShopListName(shopListNameItem)

@@ -41,6 +41,8 @@ interface ShoppingListDao {
     suspend fun insertItem(shopListItem: ShopListItem)
     @Update
     suspend fun updateItem(item: ShopListItem)
+    @Query("DELETE FROM shop_list_item WHERE listId LIKE :listId")
+    suspend fun deleteItem(listId: Int)
     @Query("SELECT * FROM shop_list_item WHERE listId LIKE :listId")
     fun getAllShopListItems(listId: Int): Flow<List<ShopListItem>>
 }
