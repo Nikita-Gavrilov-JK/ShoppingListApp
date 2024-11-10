@@ -1,5 +1,6 @@
 package com.example.shoppinglistapp.view.activites
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,6 +16,7 @@ import com.example.shoppinglistapp.databinding.ActivityShopListBinding
 import com.example.shoppinglistapp.model.ShopListItem
 import com.example.shoppinglistapp.model.ShopListNameItem
 import com.example.shoppinglistapp.model.database.ShopListItemAdapter
+import com.example.shoppinglistapp.utils.ShareHelper
 import com.example.shoppinglistapp.view.dialog.EditListItemDialog
 import com.example.shoppinglistapp.viewmodel.ShoppingListViewModel
 
@@ -60,6 +62,12 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
             R.id.clear_list -> {
                 shoppingListViewModel.deleteShopList(shopListNameItem?.id!!, false)
 
+            }
+            R.id.share_list -> {
+                startActivity(Intent.createChooser(
+                    ShareHelper.shareShopList(adapter?.currentList!!, shopListNameItem?.name!!),
+                    "Поделиться с помощью"
+                ))
             }
         }
         return super.onOptionsItemSelected(item)
