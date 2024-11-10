@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.example.shoppinglistapp.model.LibraryItem
 import com.example.shoppinglistapp.model.NoteItem
 import com.example.shoppinglistapp.model.ShopListItem
 import com.example.shoppinglistapp.model.ShopListNameItem
@@ -45,4 +46,11 @@ interface ShoppingListDao {
     suspend fun deleteItem(listId: Int)
     @Query("SELECT * FROM shop_list_item WHERE listId LIKE :listId")
     fun getAllShopListItems(listId: Int): Flow<List<ShopListItem>>
+
+    // Добавляем данные в список подсказок
+    @Query ("SELECT * FROM library WHERE name LIKE :name")
+    suspend fun getAllLibraryItems(name: String): List<LibraryItem>
+
+    @Insert
+    suspend fun insertLibraryItem(libraryItem: LibraryItem)
 }
