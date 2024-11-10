@@ -2,6 +2,8 @@ package com.example.shoppinglistapp.view.activites
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MenuItem.OnActionExpandListener
@@ -26,6 +28,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
     private lateinit var saveItem: MenuItem
     private var edItem: EditText? = null
     private var adapter: ShopListItemAdapter? = null
+    private lateinit var textWatcher: TextWatcher
     // Этот класс уже является Активити поэтому мы сразу пишем viewModels
     private val shoppingListViewModel: ShoppingListViewModel by viewModels {
         ShoppingListViewModel.ShoppingListViewModelFactory((applicationContext as MainApp).database)
@@ -46,7 +49,25 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         edItem = newItem.actionView?.findViewById(R.id.edNewShopItem) as EditText
         newItem.setOnActionExpandListener(expandActionView())
         saveItem.isVisible = false
+        textWatcher = textWatcher()
         return true
+    }
+
+    private fun textWatcher(): TextWatcher {
+        return object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        }
     }
 
     // слушатель нажатий на кнопки из меню
@@ -108,11 +129,13 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         return object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
                 saveItem.isVisible = true
+                edItem?.addTextChangedListener(textWatcher)
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                 saveItem.isVisible = false
+                edItem?.removeTextChangedListener(textWatcher)
                 invalidateOptionsMenu()
                 return true
             }
