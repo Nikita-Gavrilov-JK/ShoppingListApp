@@ -9,4 +9,18 @@
     <string name="new_list">Новый список имён</string>
     <string name="new_list_hint">Введите текст</string>
     <string name="create_list">Создание списка</string>
+    <string name="delete_dialog_text_title">Удаление</string>
+    <string name="question_delete_dialog_text">Вы действительно хотите удалить?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="update_button_shop_list_name">Обновить</string>
+    <string name="update_new_dialog_title">Редактирование названия списка</string>
+    <string name="delete_list_menu">Удаление списка</string>
+    <string name="clear_list_menu">Очистить список</string>
+    <string name="new_item_list_menu">Новый продукт</string>
+    <string name="save_item_list_menu">Сохранить</string>
+    <string name="share_list_menu">Поделиться списком</string>
+    <string name="empty">Пусто</string>
+    <string name="update_list_item">Редактирование списка продуктов</string>
+    <string name="info_edit_hint">Описание продукта</string>
 </resources>

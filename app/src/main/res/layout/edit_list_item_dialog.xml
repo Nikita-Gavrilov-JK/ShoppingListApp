@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -14,35 +15,44 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_new_dialog_title"
+                android:id="@+id/tv_title_edit_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/new_list"
-                android:textColor="@color/black"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:text="@string/update_list_item"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"/>
 
             <EditText
-                android:id="@+id/ed_new_list_name"
+                android:id="@+id/edit_text_edit_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/new_list_hint"
-                android:inputType="text" />
+                android:inputType="text"
+                android:maxLength="30"
+                android:hint="@string/new_list_hint" />
 
-            <Button
-                android:id="@+id/bCreate"
+            <EditText
+                android:id="@+id/edit_info_edit_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/create_list" />
+                android:ems="10"
+                android:inputType="text"
+                android:maxLength="30"
+                android:hint="@string/info_edit_hint" />
 
+            <Button
+                android:id="@+id/b_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/update_button_shop_list_name" />
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
