@@ -1,6 +1,7 @@
 package com.example.shoppinglistapp.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
@@ -14,10 +15,15 @@ import kotlinx.coroutines.launch
 
 class ShoppingListViewModel(database: ShoppingListDB):ViewModel() {
     val dao = database.getDao()
+    val libraryItems = MutableLiveData<List<LibraryItem>>()
     val allNotes: LiveData<List<NoteItem>> = dao.getAllNotes().asLiveData()
     val allShopListNames: LiveData<List<ShopListNameItem>> = dao.getAllShopListNames().asLiveData()
     fun getAllItemsFromList(listid: Int): LiveData<List<ShopListItem>> {
         return dao.getAllShopListItems(listid).asLiveData()
+    }
+
+    fun getAllLibraryItems(name: String) = viewModelScope.launch {
+        libraryItems.postValue(dao.getAllLibraryItems(name))
     }
     fun insertNote(note: NoteItem) = viewModelScope.launch {
         dao.insertNote(note)
