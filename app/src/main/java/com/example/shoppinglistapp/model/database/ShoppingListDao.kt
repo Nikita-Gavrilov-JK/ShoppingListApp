@@ -53,4 +53,8 @@ interface ShoppingListDao {
 
     @Insert
     suspend fun insertLibraryItem(libraryItem: LibraryItem)
+    @Update
+    suspend fun updateLibraryItem(item: LibraryItem)
+    @Query("DELETE FROM library WHERE id = :id")
+    suspend fun deleteLibraryItem(id: Int)
 }

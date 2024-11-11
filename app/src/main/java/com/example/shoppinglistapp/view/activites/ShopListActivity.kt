@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppinglistapp.MainApp
 import com.example.shoppinglistapp.R
 import com.example.shoppinglistapp.databinding.ActivityShopListBinding
+import com.example.shoppinglistapp.model.LibraryItem
 import com.example.shoppinglistapp.model.ShopListItem
 import com.example.shoppinglistapp.model.ShopListNameItem
 import com.example.shoppinglistapp.model.database.ShopListItemAdapter
@@ -133,6 +134,9 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
                 tempShopList.add(shopItem)
             }
             adapter?.submitList(tempShopList)
+            binding.tvEmpty.visibility = if (it.isEmpty()) {
+                View.VISIBLE
+            } else {View.GONE}
         })
     }
 
@@ -179,12 +183,26 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         when(state) {
             ShopListItemAdapter.CHECK_BOX -> shoppingListViewModel.updateItem(shopListItem)
             ShopListItemAdapter.EDIT -> editListitem(shopListItem)
+            ShopListItemAdapter.EDIT_LIBRARY_ITEM -> editLibraryItem(shopListItem)
+            ShopListItemAdapter.DELETE_LIBRARY_ITEM ->{
+                shoppingListViewModel.deleteLibraryItem(shopListItem.id!!)
+                shoppingListViewModel.getAllLibraryItems("%${edItem?.text.toString()}%")
+            }
         }
     }
     private fun editListitem(item: ShopListItem) {
         EditListItemDialog.showDialog(this, item, object : EditListItemDialog.Listener{
             override fun onClick(item: ShopListItem) {
                 shoppingListViewModel.updateItem(item)
+            }
+        })
+    }
+
+    private fun editLibraryItem(item: ShopListItem) {
+        EditListItemDialog.showDialog(this, item, object : EditListItemDialog.Listener{
+            override fun onClick(item: ShopListItem) {
+                shoppingListViewModel.updateLibraryItem(LibraryItem(item.id, item.name))
+                shoppingListViewModel.getAllLibraryItems("%${edItem?.text.toString()}%")
             }
         })
     }
