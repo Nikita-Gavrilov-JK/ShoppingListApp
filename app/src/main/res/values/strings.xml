@@ -23,4 +23,9 @@
     <string name="empty">Пусто</string>
     <string name="update_list_item">Редактирование списка продуктов</string>
     <string name="info_edit_hint">Описание продукта</string>
+    <string name="general">Основные</string>
+    <string name="choose_note_style">Выбор стиля</string>
+    <string name="choose_format_time">Выбор формата времени</string>
+    <string name="remove_ads">Удаление рекламы</string>
+    <string name="remove_ads_summary">Comming soon</string>
 </resources>
