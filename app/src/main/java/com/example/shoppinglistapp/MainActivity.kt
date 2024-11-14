@@ -1,5 +1,6 @@
 package com.example.shoppinglistapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +11,7 @@ import com.example.shoppinglistapp.databinding.ActivityMainBinding
 import com.example.shoppinglistapp.view.FragmentManager
 import com.example.shoppinglistapp.view.NoteFragment
 import com.example.shoppinglistapp.view.ShopListNamesFragment
+import com.example.shoppinglistapp.view.activites.SettingsActivity
 import com.example.shoppinglistapp.view.dialog.NewListDialog
 
 class MainActivity : AppCompatActivity(), NewListDialog.Listener {
@@ -25,7 +27,9 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
     private fun setBottomNavListener() {
         binding.botNavMenu.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.settings -> { Log.d("MYLOG", "Settings")}
+                R.id.settings -> {
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                }
                 R.id.notes -> {
                    FragmentManager.setFragment(NoteFragment.newInstance(), this)
                 }
