@@ -28,4 +28,9 @@
     <string name="choose_format_time">Выбор формата времени</string>
     <string name="remove_ads">Удаление рекламы</string>
     <string name="remove_ads_summary">Comming soon</string>
+    <string name="theme_settings">Настройки темы</string>
+    <string name="choose_theme">Выбор темы</string>
+    <string name="note_text_settings">Настройки текста для блокнота</string>
+    <string name="title_text_size">Выбор размера текста для заголовка</string>
+    <string name="content_text_size">Размер текста</string>
 </resources>
