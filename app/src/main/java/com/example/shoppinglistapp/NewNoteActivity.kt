@@ -2,6 +2,7 @@ package com.example.shoppinglistapp
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -13,11 +14,13 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.preference.PreferenceManager
 import com.example.shoppinglistapp.databinding.ActivityNewNoteBinding
 import com.example.shoppinglistapp.model.NoteItem
 import com.example.shoppinglistapp.utils.HtmlManager
@@ -30,7 +33,9 @@ import java.util.Locale
 
 class NewNoteActivity : AppCompatActivity() {
     private lateinit var binding : ActivityNewNoteBinding
+    private lateinit var defPref: SharedPreferences
     private var note: NoteItem? = null
+    private var pref: SharedPreferences? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNewNoteBinding.inflate(layoutInflater)
@@ -40,12 +45,16 @@ class NewNoteActivity : AppCompatActivity() {
         getNote()
         onClickColorPicker()
         init()
+        setTextSize()
     }
 
     //Метод init служит для перетаскивания палитры цветов
     @SuppressLint("ClickableViewAccessibility")
     private fun init() {
         binding.colorPicker.setOnTouchListener(MyTouchListener())
+        //Мы получаем доступ к настройкам которые выбрал пользователь на экране PreferenceScreen
+        //посмотреть можно в settings_preference.xml
+        pref = PreferenceManager.getDefaultSharedPreferences(this)
     }
 
     private fun onClickColorPicker() = with(binding){
@@ -208,5 +217,13 @@ class NewNoteActivity : AppCompatActivity() {
 
         })
         binding.colorPicker.startAnimation(openAnim)
+    }
+
+    private fun setTextSize() = with(binding){
+        edTitle.setTextSize(pref?.getString("title_size_key", "16"))
+        edDescription.setTextSize(pref?.getString("content_size_key", "12"))
+    }
+    private fun EditText.setTextSize(size: String?) {
+        if (size != null) this.textSize = size.toFloat()
     }
 }
