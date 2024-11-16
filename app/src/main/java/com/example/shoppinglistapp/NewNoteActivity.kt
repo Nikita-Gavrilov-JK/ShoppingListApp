@@ -36,9 +36,12 @@ class NewNoteActivity : AppCompatActivity() {
     private lateinit var defPref: SharedPreferences
     private var note: NoteItem? = null
     private var pref: SharedPreferences? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNewNoteBinding.inflate(layoutInflater)
+        defPref = PreferenceManager.getDefaultSharedPreferences(this)
+        setTheme(getSelectedTheme())
         setContentView(binding.root)
         binding.colorPicker.visibility = View.GONE
         actionBarSettings()
@@ -225,5 +228,13 @@ class NewNoteActivity : AppCompatActivity() {
     }
     private fun EditText.setTextSize(size: String?) {
         if (size != null) this.textSize = size.toFloat()
+    }
+
+    private fun getSelectedTheme(): Int {
+        return if (defPref.getString("theme_key", "Светлая") == "Светлая") {
+            R.style.Theme_NewNote
+        } else {
+            R.style.Theme_NewNotePurple
+        }
     }
 }

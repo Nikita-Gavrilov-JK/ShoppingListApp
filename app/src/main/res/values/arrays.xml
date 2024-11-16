@@ -20,11 +20,11 @@
 
     <string-array name="choose_theme_array">
         <item>Светлая тема</item>
-        <item>Тёмная тема</item>
+        <item>Пурпурная тема</item>
     </string-array>
     <string-array name="choose_theme_values">
         <item>Светлая</item>
-        <item>Тёмная</item>
+        <item>Пурпурная</item>
     </string-array>
 
     <string-array name="text_size_array">

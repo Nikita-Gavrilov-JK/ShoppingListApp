@@ -26,7 +26,7 @@
 </PreferenceCategory>
 <PreferenceCategory android:title="@string/theme_settings">
     <ListPreference
-        android:defaultValue="1"
+        android:defaultValue="Светлая"
         android:entries="@array/choose_theme_array"
         android:entryValues="@array/choose_theme_values"
         android:key="theme_key"
