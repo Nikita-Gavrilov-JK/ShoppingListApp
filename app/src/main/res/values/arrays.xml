@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="note_style_array">
-        <item>Вертикальный</item>
-        <item>Grid</item>
+        <item>Список</item>
+        <item>Доска</item>
     </string-array>
     <string-array name="note_style_values">
-        <item>Вертикальный</item>
-        <item>Grid</item>
+        <item>Список</item>
+        <item>Доска</item>
     </string-array>
 
     <string-array name="time_format_array">
