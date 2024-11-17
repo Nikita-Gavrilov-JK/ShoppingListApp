@@ -20,11 +20,13 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
     lateinit var binding: ActivityMainBinding
     private var currentMenuItemId = R.id.shop_list
     private lateinit var defPref: SharedPreferences
+    private var currentTheme = ""
     override fun onCreate(savedInstanceState: Bundle?) {
+        defPref = PreferenceManager.getDefaultSharedPreferences(this)
+        currentTheme = defPref.getString("theme_key", "Светлая").toString()
+        setTheme(getSelectedTheme())
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        defPref = PreferenceManager.getDefaultSharedPreferences(this)
-        setTheme(getSelectedTheme())
         setContentView(binding.root)
         FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
         setBottomNavListener()
@@ -54,6 +56,8 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
     override fun onResume() {
         super.onResume()
         binding.botNavMenu.selectedItemId = currentMenuItemId
+        //Делаем проверку на пересоздание активити
+        if (defPref.getString("theme_key", "Светлая") != currentTheme) recreate()
     }
     private fun getSelectedTheme(): Int {
         return if (defPref.getString("theme_key", "Светлая") == "Светлая") {
