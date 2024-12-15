@@ -1,5 +1,6 @@
 package com.example.shoppinglistapp.model.database
 
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,23 +10,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglistapp.R
 import com.example.shoppinglistapp.databinding.NoteListItemBinding
 import com.example.shoppinglistapp.model.NoteItem
+import com.example.shoppinglistapp.utils.HtmlManager
+import com.example.shoppinglistapp.utils.TimeManager
 
-class NoteAdpter : ListAdapter<NoteItem, NoteAdpter.ItemHolder>(ItemComparator()) {
+class NoteAdpter(private val listener: Listener, private val defPref: SharedPreferences) : ListAdapter<NoteItem, NoteAdpter.ItemHolder>(ItemComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         return ItemHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.setData(getItem(position))
+        holder.setData(getItem(position), listener, defPref)
     }
 
     class ItemHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = NoteListItemBinding.bind(view)
-        fun setData(note: NoteItem) = with(binding) {
+        fun setData(note: NoteItem, listener: Listener, defPref: SharedPreferences) = with(binding) {
             tvTitle.text = note.title
-            tvDescription.text = note.content
-            tvTime.text = note.time
+            tvDescription.text = HtmlManager.getFromHtml(note.content).trim()
+            tvTime.text = TimeManager.getTimeFormat(note.time, defPref)
+            itemView.setOnClickListener{
+                listener.onClickItem(note)
+            }
+            imDelete.setOnClickListener{listener.deleteItem(note.id!!)}
         }
 
         companion object {
@@ -47,5 +54,10 @@ class NoteAdpter : ListAdapter<NoteItem, NoteAdpter.ItemHolder>(ItemComparator()
             return oldItem == newItem
         }
 
+    }
+
+    interface Listener {
+        fun deleteItem(id: Int)
+        fun onClickItem(note: NoteItem)
     }
 }
